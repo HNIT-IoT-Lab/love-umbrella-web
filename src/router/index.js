@@ -51,8 +51,42 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '湖工志愿者管理系统', icon: 'dashboard' }
     }]
+  },
+
+  {
+    path: '/volunteer',
+    component: Layout,
+    meta: {
+      title: '志愿者',
+      icon: 'table',
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/volunteer/index'),
+        name: 'Icons',
+        meta: { title: '志愿者管理', icon: 'table' }
+      }
+    ]
+  },
+
+  {
+    path: '/activity',
+    component: Layout,
+    meta: {
+      title: '志愿活动',
+      icon: 'table',
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/activity/index'),
+        name: 'Icons',
+        meta: { title: '志愿活动管理', icon: 'table' }
+      }
+    ]
   },
 
   {
