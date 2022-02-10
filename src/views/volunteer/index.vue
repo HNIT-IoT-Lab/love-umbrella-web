@@ -1,24 +1,72 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <!-- 姓名搜索条件 -->
-      <el-input
-        placeholder="姓名"
-        size="medium"
-        v-model="queryForm.name"
-        clearable
-        style="width: 150px"
-      >
-      </el-input>
-      <!-- 搜索按钮 -->
-      <el-button type="primary" icon="el-icon-search" @click="doSearch"
-        >搜索</el-button
-      >
-
-      <el-button type="success" @click="openAddDialog()">新增</el-button>
+      <el-form :model="queryForm" :inline="true">
+        <el-form-item label="ID" prop="id">
+          <!-- ID搜索条件 -->
+          <el-input
+            placeholder="请输入ID"
+            size="medium"
+            v-model="queryForm.id"
+            clearable
+            style="width: 150px"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="name">
+          <!-- 姓名搜索条件 -->
+          <el-input
+            placeholder="请输入姓名"
+            size="medium"
+            v-model="queryForm.name"
+            clearable
+            style="width: 150px"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="学院" prop="institude">
+          <!-- 学院搜索条件 -->
+          <el-input
+            placeholder="请输入学院"
+            size="medium"
+            v-model="queryForm.institude"
+            clearable
+            style="width: 150px"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="专业" prop="major">
+          <!-- 专业搜索条件 -->
+          <el-input
+            placeholder="请输入专业"
+            size="medium"
+            v-model="queryForm.major"
+            clearable
+            style="width: 150px"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phoneNumber">
+          <!-- 手机号搜索条件 -->
+          <el-input
+            placeholder="请输入手机号"
+            size="medium"
+            v-model="queryForm.phoneNumber"
+            clearable
+            style="width: 150px"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <!-- 搜索按钮 -->
+          <el-button type="primary" icon="el-icon-search" @click="doSearch">搜索</el-button>
+          <el-button type="success" @click="openAddDialog()">新增</el-button>
+        </el-form-item>
+      </el-form>
+      
     </div>
 
-    <el-table :data="tableData" border style="width: 90%">
+    <el-table :data="tableData" border style="width: 100%">
       <el-table-column prop="id" label="ID"> </el-table-column>
       <el-table-column prop="name" label="姓名"> </el-table-column>
       <el-table-column prop="institude" label="学院"> </el-table-column>
@@ -126,7 +174,7 @@ export default {
       total: 100,
       tableData: [],
       queryForm: {
-        name: "",
+        name: undefined,
         pageNo: 1,
         pageSize: 20,
       },

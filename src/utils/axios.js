@@ -3,9 +3,9 @@ import Axios from 'axios';
 import qs from 'qs'
 
 // 全局配置
-const myAxios = Axios.create({
-    baseURL: 'http://localhost:8080/',  // 请求的路径
-    timeout: 5000,  // 超时时间
+export const myAxios = Axios.create({
+    baseURL: 'http://localhost:8080/', // 请求的路径
+    timeout: 5000, // 超时时间
 });
 
 // 带token
@@ -13,7 +13,7 @@ myAxios.defaults.headers.common['Authorization'] = getToken()
 
 
 // 响应接手前的拦截
-myAxios.interceptors.response.use(function (response) {
+myAxios.interceptors.response.use(function(response) {
     // 将数据进行封装
     let { data } = response;
     response.data = data.data;
@@ -25,7 +25,7 @@ myAxios.interceptors.response.use(function (response) {
         return Promise.reject(data.message)
     }
     return response;
-}, function (err) {
+}, function(err) {
     return Promise.reject(err);
 })
 
@@ -45,7 +45,7 @@ export function get(url, params) {
 }
 
 /**
- * put方法
+ * post方法
  */
 export function post_json(url, data) {
     return myAxios({
@@ -54,4 +54,12 @@ export function post_json(url, data) {
         data,
         timeout: 10000,
     })
+}
+
+const config = {
+    headers: { "Content-Type": "multipart/form-data;boundary=" + new Date().getTime() }
+};
+
+export function uploadFile(url, data) {
+    return myAxios.post(url, data, config)
 }
