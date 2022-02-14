@@ -59,11 +59,12 @@
         </el-form-item>
         <el-form-item>
           <!-- 搜索按钮 -->
-          <el-button type="primary" icon="el-icon-search" @click="doSearch">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="doSearch"
+            >搜索</el-button
+          >
           <el-button type="success" @click="openAddDialog()">新增</el-button>
         </el-form-item>
       </el-form>
-      
     </div>
 
     <el-table :data="tableData" border style="width: 100%">
@@ -196,6 +197,7 @@ export default {
       // 获取表格数据
       fetchData(this.queryForm).then((response) => {
         if (response.code == 200) {
+          console.log(response);
           this.tableData = response.data.records;
           this.total = response.data.total;
           this.queryForm.pageNo = response.data.current;
