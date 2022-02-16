@@ -25,7 +25,7 @@
           <el-button
             size="small "
             type="danger"
-            @click="handleDelete(scope.row.openID)"
+            @click="handleDelete(scope.row)"
             >删除</el-button
           >
         </template>
@@ -79,7 +79,11 @@
 </template>
 
 <script>
-import { selectOverTimeList, sendAlarmEmail } from "../../api/umbrella.js";
+import {
+  selectOverTimeList,
+  sendAlarmEmail,
+  deleteOvertime,
+} from "../../api/umbrella.js";
 import moment from "moment";
 export default {
   data() {
@@ -172,16 +176,32 @@ export default {
     clearDialogData() {},
     //删除该条记录
     handleDelete(val) {
+      // 用户的key由固定字段(有英文冒号)：umbrellaOvertime:+用户姓名+openID
+      let key = "umbrellaOvertime:" + val.userName + val.openID;
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
+          let params = new URLSearchParams();
+          params.append("key", key);
+          deleteOvertime(params).then(
+            (res) => {
+              if (res.code === 200) {
+                //刷新列表
+                this.getList();
+                setTimeout(() => {
+                  this.confirm("删除成功", "消息提示");
+                }, 500);
+              } else {
+                this.confirm(res.message, "删除失败");
+              }
+            },
+            (err) => {
+              this.confirm(err, "删除失败");
+            }
+          );
         })
         .catch(() => {
           this.$message({
@@ -205,14 +225,14 @@ export default {
           setTimeout(() => {
             if (res.code === 200) {
               //成功
-              this.confire("发送成功", "消息提醒");
+              this.confirm("发送成功", "消息提醒");
             } else {
-              this.confire(res.data, "错误提醒");
+              this.confirm(res.data, "错误提醒");
             }
           }, 500);
         },
         (err) => {
-          this.confire("系统错误" + err, "消息提醒");
+          this.confirm("系统错误，" + err, "消息提醒");
           //关闭表单
           this.dialogVisible = false;
         }
@@ -223,7 +243,7 @@ export default {
       return rowIndex % 4 === 0 ? "success-row" : "";
     },
     //确认框，只有确认按钮
-    confire(content, title) {
+    confirm(content, title) {
       this.$alert(content, title, {
         confirmButtonText: "确定",
       });
