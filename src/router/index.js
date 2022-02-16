@@ -30,236 +30,234 @@ import Layout from "@/layout";
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-  {
-    path: "/login",
-    component: () => import("@/views/login/index"),
-    hidden: true,
-  },
-
-  {
-    path: "/404",
-    component: () => import("@/views/404"),
-    hidden: true,
-  },
-
-  {
-    path: "/",
-    component: Layout,
-    redirect: "/dashboard",
-    children: [
-      {
-        path: "dashboard",
-        name: "Dashboard",
-        component: () => import("@/views/dashboard/index"),
-        meta: { title: "湖工志愿者管理系统", icon: "dashboard" },
-      },
-    ],
-  },
-
-  {
-    path: "/volunteer",
-    component: Layout,
-    meta: {
-      title: "志愿者",
-      icon: "table",
+export const constantRoutes = [{
+        path: "/login",
+        component: () =>
+            import ("@/views/login/index"),
+        hidden: true,
     },
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/volunteer/index"),
-        name: "Icons",
-        meta: { title: "志愿者管理", icon: "table" },
-      },
-    ],
-  },
 
-  {
-    path: "/activity",
-    component: Layout,
-    meta: {
-      title: "志愿活动",
-      icon: "Nested",
+    {
+        path: "/404",
+        component: () =>
+            import ("@/views/404"),
+        hidden: true,
     },
-    children: [
-      {
-        path: "index",
-        component: () => import("@/views/activity/index"),
-        name: "Icons",
-        meta: { title: "志愿活动管理", icon: "el-icon-s-help" },
-      },
-    ],
-  },
 
-  {
-    path: "/signup",
-    component: Layout,
-    meta: {
-      title: "报名",
-      icon: "table",
+    {
+        path: "/",
+        component: Layout,
+        redirect: "/dashboard",
+        children: [{
+            path: "dashboard",
+            name: "Dashboard",
+            component: () =>
+                import ("@/views/dashboard/index"),
+            meta: { title: "湖工志愿者管理系统", icon: "dashboard" },
+        }, ],
     },
-    children: [
-      {
-        path: "index",
-        // component: () =>
-        //     import ('@/views/signup/index'),
-        name: "Icons",
-        meta: { title: "报名管理", icon: "form" },
-      },
-    ],
-  },
-  {
-    path: "/umbrella",
-    component: Layout,
-    meta: {
-      title: "爱心💖雨伞",
-      icon: "el-icon-star-off",
-    },
-    children: [
-      {
-        path: "borrow",
-        component: () => import("@/views/umbrella/borrow.vue"),
-        name: "Icons",
-        meta: { title: "借伞情况统计", icon: "el-icon-star-on" },
-      },
-      {
-        path: "overtime",
-        component: () => import("@/views/umbrella/overTime.vue"),
-        name: "Icons",
-        meta: { title: "借伞超时统计", icon: "el-icon-star-on" },
-      },
-      {
-        path: "history",
-        component: () => import("@/views/umbrella/history.vue"),
-        name: "Icons",
-        meta: { title: "借伞历史数据", icon: "el-icon-star-on" },
-      },
-    ],
-  },
-  {
-    path: "/example",
-    component: Layout,
-    redirect: "/example/table",
-    name: "Example",
-    meta: { title: "Example", icon: "el-icon-s-help" },
-    children: [
-      {
-        path: "table",
-        name: "Table",
-        component: () => import("@/views/table/index"),
-        meta: { title: "Table", icon: "table" },
-      },
-      {
-        path: "tree",
-        name: "Tree",
-        component: () => import("@/views/tree/index"),
-        meta: { title: "Tree", icon: "tree" },
-      },
-    ],
-  },
 
-  {
-    path: "/form",
-    component: Layout,
-    children: [
-      {
-        path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index"),
-        meta: { title: "Form", icon: "form" },
-      },
-    ],
-  },
-
-  {
-    path: "/nested",
-    component: Layout,
-    redirect: "/nested/menu1",
-    name: "Nested",
-    meta: {
-      title: "Nested",
-      icon: "nested",
+    {
+        path: "/volunteer",
+        component: Layout,
+        meta: {
+            title: "志愿者",
+            icon: "table",
+        },
+        children: [{
+            path: "index",
+            component: () =>
+                import ("@/views/volunteer/index"),
+            name: "Icons",
+            meta: { title: "志愿者管理", icon: "table" },
+        }, ],
     },
-    children: [
-      {
-        path: "menu1",
-        component: () => import("@/views/nested/menu1/index"), // Parent router-view
-        name: "Menu1",
-        meta: { title: "Menu1" },
-        children: [
-          {
-            path: "menu1-1",
-            component: () => import("@/views/nested/menu1/menu1-1"),
-            name: "Menu1-1",
-            meta: { title: "Menu1-1" },
-          },
-          {
-            path: "menu1-2",
-            component: () => import("@/views/nested/menu1/menu1-2"),
-            name: "Menu1-2",
-            meta: { title: "Menu1-2" },
-            children: [
-              {
-                path: "menu1-2-1",
+
+    {
+        path: "/activity",
+        component: Layout,
+        meta: {
+            title: "志愿活动",
+            icon: "Nested",
+        },
+        children: [{
+            path: "index",
+            component: () =>
+                import ("@/views/activity/index"),
+            name: "Icons",
+            meta: { title: "志愿活动管理", icon: "el-icon-s-help" },
+        }, ],
+    },
+
+    {
+        path: "/signup",
+        component: Layout,
+        meta: {
+            title: "报名",
+            icon: "table",
+        },
+        children: [{
+            path: "index",
+            component: () =>
+                import ('@/views/signup/index'),
+            name: "Icons",
+            meta: { title: "报名管理", icon: "form" },
+        }, ],
+    },
+    {
+        path: "/umbrella",
+        component: Layout,
+        meta: {
+            title: "爱心💖雨伞",
+            icon: "el-icon-star-off",
+        },
+        children: [{
+                path: "borrow",
                 component: () =>
-                  import("@/views/nested/menu1/menu1-2/menu1-2-1"),
-                name: "Menu1-2-1",
-                meta: { title: "Menu1-2-1" },
-              },
-              {
-                path: "menu1-2-2",
+                    import ("@/views/umbrella/borrow.vue"),
+                name: "Icons",
+                meta: { title: "借伞情况统计", icon: "el-icon-star-on" },
+            },
+            {
+                path: "overtime",
                 component: () =>
-                  import("@/views/nested/menu1/menu1-2/menu1-2-2"),
-                name: "Menu1-2-2",
-                meta: { title: "Menu1-2-2" },
-              },
-            ],
-          },
-          {
-            path: "menu1-3",
-            component: () => import("@/views/nested/menu1/menu1-3"),
-            name: "Menu1-3",
-            meta: { title: "Menu1-3" },
-          },
+                    import ("@/views/umbrella/overTime.vue"),
+                name: "Icons",
+                meta: { title: "借伞超时统计", icon: "el-icon-star-on" },
+            },
+            {
+                path: "history",
+                component: () =>
+                    import ("@/views/umbrella/history.vue"),
+                name: "Icons",
+                meta: { title: "借伞历史数据", icon: "el-icon-star-on" },
+            },
         ],
-      },
-      {
-        path: "menu2",
-        component: () => import("@/views/nested/menu2/index"),
-        name: "Menu2",
-        meta: { title: "menu2" },
-      },
-    ],
-  },
+    },
+    {
+        path: "/example",
+        component: Layout,
+        redirect: "/example/table",
+        name: "Example",
+        meta: { title: "Example", icon: "el-icon-s-help" },
+        children: [{
+                path: "table",
+                name: "Table",
+                component: () =>
+                    import ("@/views/table/index"),
+                meta: { title: "Table", icon: "table" },
+            },
+            {
+                path: "tree",
+                name: "Tree",
+                component: () =>
+                    import ("@/views/tree/index"),
+                meta: { title: "Tree", icon: "tree" },
+            },
+        ],
+    },
 
-  {
-    path: "external-link",
-    component: Layout,
-    children: [
-      {
-        path: "https://panjiachen.github.io/vue-element-admin-site/#/",
-        meta: { title: "External Link", icon: "link" },
-      },
-    ],
-  },
+    {
+        path: "/form",
+        component: Layout,
+        children: [{
+            path: "index",
+            name: "Form",
+            component: () =>
+                import ("@/views/form/index"),
+            meta: { title: "Form", icon: "form" },
+        }, ],
+    },
 
-  // 404 page must be placed at the end !!!
-  { path: "*", redirect: "/404", hidden: true },
+    {
+        path: "/nested",
+        component: Layout,
+        redirect: "/nested/menu1",
+        name: "Nested",
+        meta: {
+            title: "Nested",
+            icon: "nested",
+        },
+        children: [{
+                path: "menu1",
+                component: () =>
+                    import ("@/views/nested/menu1/index"), // Parent router-view
+                name: "Menu1",
+                meta: { title: "Menu1" },
+                children: [{
+                        path: "menu1-1",
+                        component: () =>
+                            import ("@/views/nested/menu1/menu1-1"),
+                        name: "Menu1-1",
+                        meta: { title: "Menu1-1" },
+                    },
+                    {
+                        path: "menu1-2",
+                        component: () =>
+                            import ("@/views/nested/menu1/menu1-2"),
+                        name: "Menu1-2",
+                        meta: { title: "Menu1-2" },
+                        children: [{
+                                path: "menu1-2-1",
+                                component: () =>
+                                    import ("@/views/nested/menu1/menu1-2/menu1-2-1"),
+                                name: "Menu1-2-1",
+                                meta: { title: "Menu1-2-1" },
+                            },
+                            {
+                                path: "menu1-2-2",
+                                component: () =>
+                                    import ("@/views/nested/menu1/menu1-2/menu1-2-2"),
+                                name: "Menu1-2-2",
+                                meta: { title: "Menu1-2-2" },
+                            },
+                        ],
+                    },
+                    {
+                        path: "menu1-3",
+                        component: () =>
+                            import ("@/views/nested/menu1/menu1-3"),
+                        name: "Menu1-3",
+                        meta: { title: "Menu1-3" },
+                    },
+                ],
+            },
+            {
+                path: "menu2",
+                component: () =>
+                    import ("@/views/nested/menu2/index"),
+                name: "Menu2",
+                meta: { title: "menu2" },
+            },
+        ],
+    },
+
+    {
+        path: "external-link",
+        component: Layout,
+        children: [{
+            path: "https://panjiachen.github.io/vue-element-admin-site/#/",
+            meta: { title: "External Link", icon: "link" },
+        }, ],
+    },
+
+    // 404 page must be placed at the end !!!
+    { path: "*", redirect: "/404", hidden: true },
 ];
 
 const createRouter = () =>
-  new Router({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes,
-  });
+    new Router({
+        // mode: 'history', // require service support
+        scrollBehavior: () => ({ y: 0 }),
+        routes: constantRoutes,
+    });
 
 const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter();
-  router.matcher = newRouter.matcher; // reset router
+    const newRouter = createRouter();
+    router.matcher = newRouter.matcher; // reset router
 }
 
 export default router;
