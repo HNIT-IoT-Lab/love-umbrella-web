@@ -63,12 +63,6 @@
           {{scope.row.predictDuration}} 小时
         </template>
       </el-table-column>
-      <el-table-column prop="actualDuration" label="实际花费时长" width="70"> 
-        <template slot-scope="scope">
-          <span v-if="scope.row.status === '02' && scope.row.isAudited === 1">{{scope.row.actualDuration}} 小时</span>
-          <span v-else>未审核</span>
-        </template>
-      </el-table-column>
       <el-table-column prop="startTime" label="活动开始时间"> </el-table-column>
       <el-table-column prop="endTime" label="活动结束时间" > </el-table-column>
       <el-table-column prop="status" label="状态" width="70">
@@ -77,9 +71,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="description" label="活动描述"> </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="230">
         <template slot-scope="scope">
-          <el-button size="mini" @click="openEditDialog(scope.row.id)"
+          <el-popover
+            placement="top"
+            width="176"
+            trigger="click">
+            <div :id="'qrcode' + scope.row.id"></div>
+            <el-button size="mini" type="primary" slot="reference" @click="getQrCode(scope.row.id)">二维码</el-button>
+          </el-popover>
+          <el-button size="mini" type="success" @click="openEditDialog(scope.row.id)" style="margin-left: 10px;"
             >编辑</el-button
           >
           <el-button
@@ -186,9 +187,7 @@ import {
   deleteById,
   add,
 } from "../../api/activity";
-import{
-  uploadImg,
-} from "../../api/upload";
+import QRCode from 'qrcodejs2';
 export default {
   computed: {
     // 从仓库中获取解构的数据
@@ -235,7 +234,9 @@ export default {
       },{
         value: '02',
         label: '已结束'
-      }]
+      }],
+      // 二维码div
+      qrCodeDiv: String
     };
   },
   created() {
@@ -417,6 +418,24 @@ export default {
         console.log(this.activityDate[0],this.activityDate[1]);
         this.activityInfo.startTime = this.activityDate[0];
         this.activityInfo.endTime = this.activityDate[1];
+      }
+    },
+    /** 生成QrCode */
+    getQrCode(id) {
+      if(document.getElementById('qrcode' + id).innerHTML == "") {
+        console.log()
+        // 清空原有内容
+        document.getElementById('qrcode' + id).innerHTML='';
+        this.$nextTick(()=>{
+          let qrcode = new QRCode('qrcode' + id, {
+            width: 150,
+            height: 150,        // 高度
+            text:  'hg_volunteer_sign_in:' + id,   // 二维码内容
+            // render: 'canvas' ,   // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
+            // background: '#f0f',   // 背景色
+            // foreground: '#ff0'    // 前景色
+          })
+        });
       }
     }
   },
