@@ -17,6 +17,7 @@
           <el-button @click="openDialog">查看微信里现存图片</el-button>
         </el-form-item>
       </el-form>
+      <!-- TODO：完成下面的上传 -->
       <el-upload
         class="upload-demo"
         drag
@@ -122,7 +123,7 @@ export default {
       let fileName = file.name,
         regex = /(.jpg|.jpeg|.png|.bmp)$/; //图片格式
       let isImg = regex.test(fileName.toLowerCase());
-      let isLt10M = file.size / 1024 / 1024 < 10; //上传大小2m
+      let isLt10M = file.size / 1024 / 1024 < 10; //上传大小10m
       if (!isImg) {
         this.$message.error("图片格式为：" + fileName + "，不符合规范");
       }

@@ -69,3 +69,12 @@ export function getImageList(params) {
 export function deleteImage(params) {
   return get("miniProgram/deleteImage", params);
 }
+
+/**
+ * 修改一张图片所携带的信息
+ * @param {swiperVo}  传入一个包装好的图片对象，包括uid、title、summary、storePath、url
+ * @returns promise对象
+ */
+export function updateImage(params) {
+  return get("miniProgram/updateImage", params);
+}
