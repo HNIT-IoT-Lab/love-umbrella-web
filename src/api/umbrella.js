@@ -78,3 +78,20 @@ export function deleteImage(params) {
 export function updateImage(params) {
   return get("miniProgram/updateImage", params);
 }
+
+/**
+ * 获取设置微信小程序配置静态资源
+ * @returns
+ */
+export function getMiniProgramStaticInfo() {
+  return get("miniProgram/getMiniProgramStaticInfo");
+}
+
+/**
+ * 设置微信小程序配置静态资源
+ * @param {adminPhone,swiperVo} 将电话和一个图片对象包装在一起
+ * @returns
+ */
+export function updataMiniProgramStaticInfo(params) {
+  return get("miniProgram/setMiniProgramStaticInfo", params);
+}

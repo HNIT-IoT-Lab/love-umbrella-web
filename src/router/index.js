@@ -156,6 +156,12 @@ export const constantRoutes = [
         name: "Icons",
         meta: { title: "活动文章管理", icon: "el-icon-star-off" },
       },
+      {
+        path: "staticInfo",
+        component: () => import("@/views/miniPrograms/staticInfo.vue"),
+        name: "Icons",
+        meta: { title: "静态资源管理", icon: "el-icon-star-off" },
+      },
     ],
   },
   {

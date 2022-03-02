@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="miniPrograms-content">
+    <div class="miniPrograms-content" v-if="hasData">
       <el-row :gutter="20" class="el-row" type="flex">
-        <el-col :span="8" class="el-col" v-for="(item, index) in swiperList">
-          <el-card @click.native="clickCardButton(item)">
-            <span>{{ item.title }}</span>
+        <el-col :span="40" class="el-col">
+          <el-card @click.native="clickCardButton()">
+            <span>{{ form.swiperVo.title }}</span>
           </el-card>
         </el-col>
       </el-row>
@@ -12,13 +12,16 @@
     <!-- 对话框 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="50%">
       <el-form :model="form" status-icon>
-        <el-form-item label="活动标题" prop="addressee">
-          <el-input v-model="form.title"></el-input>
+        <el-form-item label="联系青协管理员电话" prop="addressee">
+          <el-input v-model="form.adminPhone"></el-input>
         </el-form-item>
-        <el-form-item label="活动概述">
-          <el-input type="textarea" v-model="form.summary"></el-input>
+        <el-form-item label="关于我们界面标题" prop="addressee">
+          <el-input v-model="form.swiperVo.title"></el-input>
         </el-form-item>
-        <el-form-item label="活动图片">
+        <el-form-item label="关于我们界面内容">
+          <el-input type="textarea" v-model="form.swiperVo.summary"></el-input>
+        </el-form-item>
+        <el-form-item label="关于我们界面图片">
           <el-upload
             ref="doctypeCrfile"
             class="upload-demo"
@@ -38,7 +41,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button type="danger" @click="deleteButton">删除当前活动</el-button>
+        <el-button type="danger" @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="updateButton">修改当前活动</el-button>
       </span>
     </el-dialog>
@@ -46,26 +49,34 @@
 </template>
 
 <script>
-import { getImageList, deleteImage, updateImage } from "../../api/umbrella.js";
+import {
+  getMiniProgramStaticInfo,
+  updataMiniProgramStaticInfo,
+  deleteImage,
+} from "../../api/umbrella.js";
 export default {
   data() {
     return {
-      uploadUrl: "http://localhost:8080/miniProgram/upLoadImage/",
+      hasData: false, //等数据请求到后再渲染dom
+      uploadUrl: "",
       storePath: "qxImages/categoryImages2/", //图片在oss中的路径
       //对话框部分
-      dialogTitle: "志愿活动详情",
+      dialogTitle: "管理员电话&关于我们信息设置",
       dialogVisible: false, //是否展示卡片
       //从服务器拿到的活动信息，包括图片url、描述、标题等等
-      swiperList: [],
+      miniProgramStaticInfo: [],
       //这是当前打开窗口的图片地址,只显示一张但是还是得封装成一个数组
       imageUrl: [],
       form: {
         //表单
-        storePath: "",
-        summary: "",
-        title: "", //邮件主题
-        url: "",
-        uid: "",
+        adminPhone: "",
+        swiperVo: {
+          storePath: "",
+          summary: "",
+          title: "微信小程序我的界面静态资源", //标题
+          url: "",
+          uid: "",
+        },
       },
     };
   },
@@ -73,17 +84,18 @@ export default {
     /**
      * 用户点击了卡片
      */
-    clickCardButton(obj) {
+    clickCardButton() {
       /**
        * 将当前表单的数据渲染,这里需要注意，饿了么<el-upload>组件回显图标的:file-list必须返回一个数组,里面存放对象
        */
-      this.form = {
-        storePath: obj.storePath,
-        summary: obj.summary,
-        title: obj.title,
-        uid: obj.uid,
-        url: obj.url,
-      };
+      // this.form.swiperVo = {
+      //   storePath: obj.storePath,
+      //   content: obj.content,
+      //   title: obj.title,
+      //   uid: obj.uid,
+      //   url: obj.url,
+      // };
+      this.form = this.miniProgramStaticInfo;
       this.dialogVisible = true;
     },
     // 上传组件部分
@@ -97,7 +109,7 @@ export default {
      * 上传成功的钩子
      */
     handleUploadSuccess(res, file) {
-      this.form.imageUrl = URL.createObjectURL(file.raw);
+      this.form.swiperVo.url = file.response.data;
     },
     /**
      * 上传失败的钩子函数
@@ -115,12 +127,16 @@ export default {
      */
     updateButton() {
       let params = new URLSearchParams();
-      params.append("storePath", this.form.storePath);
-      params.append("summary", this.form.summary);
-      params.append("title", this.form.title);
-      params.append("uid", this.form.uid);
-      params.append("url", this.form.url);
-      updateImage(params).then(
+      console.log(this.form);
+
+      params.append("adminPhone", this.form.adminPhone);
+      params.append("storePath", this.form.swiperVo.storePath);
+      params.append("summary", this.form.swiperVo.summary);
+      params.append("title", this.form.swiperVo.title);
+      params.append("uid", this.form.swiperVo.uid);
+      params.append("url", this.form.swiperVo.url);
+      console.log(params);
+      updataMiniProgramStaticInfo(params).then(
         (res) => {
           if (res.code === 200) {
             this.$message({
@@ -128,13 +144,13 @@ export default {
               message: "更新成功!",
             });
             //刷新数据
-            this.getswiperList();
+            this.getMiniProgramStaticInfo();
             this.dialogVisible = false;
           }
         },
         (err) => {
-          his.$message({
-            type: "success",
+          this.$message({
+            type: "fail",
             message: "更新失败!" + err,
           });
         }
@@ -144,7 +160,7 @@ export default {
       //提示用户确认,传入用户确认之后的回调函数
       this.confirm(() => {
         let params = new URLSearchParams();
-        params.append("key", this.storePath + ":" + this.form.url);
+        params.append("key", this.storePath + ":" + this.form.swiperVo.url);
         deleteImage(params).then(
           (res) => {
             if (res.code === 200) {
@@ -153,7 +169,7 @@ export default {
                 message: "删除成功!",
               });
               //刷新界面
-              this.getswiperList();
+              this.getMiniProgramStaticInfo();
               setTimeout(() => {
                 this.dialogVisible = false;
               }, 500);
@@ -169,23 +185,42 @@ export default {
       });
     },
     /**
-     * 从服务器后台得到图片列表
+     * 从服务器后台得到小程序端的静态资源
      */
-    getswiperList() {
-      let params = new URLSearchParams();
-      params.append("storePath", this.storePath);
-      getImageList(params).then(
+    getMiniProgramStaticInfo() {
+      getMiniProgramStaticInfo().then(
         (res) => {
           //由于后端序列化问题，这里传过来的是字符串，需要转成对象
-          let obj = JSON.parse(res.data);
           //将url从对象中取出来
-          this.swiperList = obj.swiperList;
+          this.miniProgramStaticInfo = res.data || {};
         },
         (err) => {
           this.confirm("获取服务器图片失败" + err, "错误提示");
         }
       );
     },
+
+    /**
+     * 设置小程序端的静态资源
+     */
+    setMiniProgramStaticInfo() {
+      let params = new URLSearchParams();
+      params.append("MiniProgramStaticInfoVo", this.data.form);
+      setMiniProgramStaticInfo(params).then(
+        (res) => {
+          if (res.code === 200) {
+            console.log(res);
+          }
+        },
+        (err) => {
+          this.$message({
+            type: "err",
+            message: "系统错误" + err,
+          });
+        }
+      );
+    },
+
     /**
      * 确认框，传入一个确认删除的回调函数
      */
@@ -210,7 +245,13 @@ export default {
    * vue渲染界面之前的钩子，可以访问data和methods里的方法
    */
   created() {
-    this.getswiperList();
+    //先读取下配置文件，拿到图片自动上传的地址
+    let appData = require("../../data.json");
+    console.log(appData);
+    this.uploadUrl = appData.umbrella_upload_url;
+    //先不加载dom，等数据请求到后再加载dom
+    this.getMiniProgramStaticInfo();
+    this.hasData = true;
   },
   computed: {
     /**
@@ -225,8 +266,8 @@ export default {
     getUrl() {
       let arr = [
         {
-          uid: this.form.uid,
-          url: this.form.url,
+          uid: this.form.swiperVo.uid,
+          url: this.form.swiperVo.url,
         },
       ];
       return arr;
@@ -235,10 +276,10 @@ export default {
     getParams: {
       get: function () {
         return {
-          uid: this.form.uid,
-          title: this.form.title,
-          summary: this.form.summary,
-          storePath: this.storePath, //图片存在oss中的相对路径，ex：qxImages/categoryImages0/")
+          uid: this.form.swiperVo.uid,
+          title: this.form.swiperVo.title,
+          summary: this.form.swiperVo.summary,
+          storePath: this.form.swiperVo.storePath, //图片存在oss中的相对路径，ex：qxImages/categoryImages0/")
         };
       },
       set: function () {},
