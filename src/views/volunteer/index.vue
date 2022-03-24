@@ -104,7 +104,7 @@
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="40%"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="volunteerInfo" label-width="100px">
@@ -229,6 +229,7 @@ export default {
       this.clearDialogData();
       getById(param)
         .then((response) => {
+          console.log("======", response);
           this.volunteerInfo = response.data;
         })
         .catch((err) => {

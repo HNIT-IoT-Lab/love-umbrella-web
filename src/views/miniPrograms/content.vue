@@ -50,7 +50,7 @@ import { getImageList, deleteImage, updateImage } from "../../api/umbrella.js";
 export default {
   data() {
     return {
-      uploadUrl: "http://localhost:8080/miniProgram/upLoadImage/",
+      uploadUrl: "",
       storePath: "qxImages/categoryImages2/", //图片在oss中的路径
       //对话框部分
       dialogTitle: "志愿活动详情",
@@ -210,6 +210,9 @@ export default {
    * vue渲染界面之前的钩子，可以访问data和methods里的方法
    */
   created() {
+    //先读取下配置文件，拿到图片自动上传的地址
+    let appData = require("../../data.json");
+    this.uploadUrl = appData.umbrella_upload_url;
     this.getswiperList();
   },
   computed: {

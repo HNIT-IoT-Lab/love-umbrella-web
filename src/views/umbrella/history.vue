@@ -104,7 +104,7 @@ export default {
       return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
     statusFormat(status) {
-      return status === 0 ? "未归还" : "已归还";
+      return status === 0 ? "已归还" : "未归还";
     },
   },
 };

@@ -247,7 +247,6 @@ export default {
   created() {
     //先读取下配置文件，拿到图片自动上传的地址
     let appData = require("../../data.json");
-    console.log(appData);
     this.uploadUrl = appData.umbrella_upload_url;
     //先不加载dom，等数据请求到后再加载dom
     this.getMiniProgramStaticInfo();

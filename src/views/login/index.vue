@@ -57,10 +57,10 @@
         >Login</el-button
       >
 
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right: 20px">username: admin</span>
         <span> password: any</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
@@ -87,8 +87,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [
@@ -123,6 +123,13 @@ export default {
       });
     },
     handleLogin() {
+      // 登录一般需要请求后端，这里简单写了
+      if (
+        this.loginForm.username != "volunteer" ||
+        this.loginForm.password != "volunteer"
+      ) {
+        return this.$message.error("账号或密码错误");
+      }
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;

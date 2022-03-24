@@ -77,7 +77,7 @@ export default {
       dialogFormVisible: false, //参看微信中现存图片
       dialogImageUrl: "",
       dialogVisible: false, //参看微信中现存图片里的dialog
-      uploadUrl: "http://localhost:8080/miniProgram/upLoadImage/",
+      uploadUrl: "",
       swiperList: [],
     };
   },
@@ -180,6 +180,14 @@ export default {
         confirmButtonText: "确定",
       });
     },
+  },
+  /**
+   * vue渲染界面之前的钩子，可以访问data和methods里的方法
+   */
+  created() {
+    //先读取下配置文件，拿到图片自动上传的地址
+    let appData = require("../../data.json");
+    this.uploadUrl = appData.umbrella_upload_url;
   },
   computed: {
     //将每一张轮播图的信息都封装起来

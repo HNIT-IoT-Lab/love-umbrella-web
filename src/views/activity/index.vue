@@ -86,14 +86,21 @@
       <el-table-column prop="description" label="活动描述"> </el-table-column>
       <el-table-column label="操作" width="230">
         <template slot-scope="scope">
-          <el-popover
-            placement="top"
-            width="176"
-            trigger="click">
+          <el-popover placement="top" width="176" trigger="click">
             <div :id="'qrcode' + scope.row.id"></div>
-            <el-button size="mini" type="primary" slot="reference" @click="getQrCode(scope.row.id)">二维码</el-button>
+            <el-button
+              size="mini"
+              type="primary"
+              slot="reference"
+              @click="getQrCode(scope.row.id)"
+              >二维码</el-button
+            >
           </el-popover>
-          <el-button size="mini" type="success" @click="openEditDialog(scope.row.id)" style="margin-left: 10px;"
+          <el-button
+            size="mini"
+            type="success"
+            @click="openEditDialog(scope.row.id)"
+            style="margin-left: 10px"
             >编辑</el-button
           >
           <el-button
@@ -122,7 +129,7 @@
     <el-dialog
       :title="dialogTitle"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="50%"
       :before-close="handleClose"
     >
       <el-form ref="form" :model="activityInfo" label-width="100px">
@@ -214,7 +221,7 @@ import {
   deleteById,
   add,
 } from "../../api/activity";
-import QRCode from 'qrcodejs2';
+import QRCode from "qrcodejs2";
 export default {
   computed: {
     // 从仓库中获取解构的数据
@@ -251,16 +258,20 @@ export default {
       // 文件上传数量
       fileNum: 1,
       // 活动状态下拉选项
-      statusOptions: [{
-        value: '00',
-        label: '进行中'
-      },{
-        value: '01',
-        label: '招募中'
-      },{
-        value: '02',
-        label: '已结束'
-      }],
+      statusOptions: [
+        {
+          value: "00",
+          label: "进行中",
+        },
+        {
+          value: "01",
+          label: "招募中",
+        },
+        {
+          value: "02",
+          label: "已结束",
+        },
+      ],
     };
   },
   created() {
@@ -456,22 +467,22 @@ export default {
     },
     /** 生成QrCode */
     getQrCode(id) {
-      if(document.getElementById('qrcode' + id).innerHTML == "") {
-        console.log()
+      if (document.getElementById("qrcode" + id).innerHTML == "") {
+        console.log();
         // 清空原有内容
-        document.getElementById('qrcode' + id).innerHTML='';
-        this.$nextTick(()=>{
-          let qrcode = new QRCode('qrcode' + id, {
+        document.getElementById("qrcode" + id).innerHTML = "";
+        this.$nextTick(() => {
+          let qrcode = new QRCode("qrcode" + id, {
             width: 150,
-            height: 150,        // 高度
-            text:  'hg_volunteer_sign_in:' + id,   // 二维码内容
+            height: 150, // 高度
+            text: "hg_volunteer_sign_in:" + id, // 二维码内容
             // render: 'canvas' ,   // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
             // background: '#f0f',   // 背景色
             // foreground: '#ff0'    // 前景色
-          })
+          });
         });
       }
-    }
+    },
   },
 };
 </script>
