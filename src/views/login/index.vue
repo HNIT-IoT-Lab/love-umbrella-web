@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">湖 南 工 学 院 志 愿 者 管 理 系 统</h3>
+        <h3 class="title">青 年 志 愿 者 协 会 管 理 系 统</h3>
       </div>
 
       <el-form-item prop="username">

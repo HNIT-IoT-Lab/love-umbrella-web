@@ -36,7 +36,7 @@ export function sendAlarmEmail(params) {
 }
 /**
  * 删除一条超时用户的数据
- * @param {key} params 用户信息对应在redis中的key
+ * @param {openID} params 用户的openID
  * @returns 200 OK other false
  */
 export function deleteOvertime(params) {
@@ -94,4 +94,13 @@ export function getMiniProgramStaticInfo() {
  */
 export function updataMiniProgramStaticInfo(params) {
   return get("miniProgram/setMiniProgramStaticInfo", params);
+}
+
+/**
+ * 管理员在web端对用户借伞记录进行归还
+ * @param {params}  用户的openID
+ * @returns
+ */
+export function returnUmbrellaByAdmin(params) {
+  return get("umbrella/returnUmbrellaByAdmin", params);
 }

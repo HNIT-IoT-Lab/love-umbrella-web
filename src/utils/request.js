@@ -6,6 +6,7 @@ import { getToken } from "@/utils/auth";
 // create an axios instance
 const service = axios.create({
   baseURL: "https://volunteer.fengxianhub.top:8080", // url = base url + request url
+  // baseURL: "http://localhost:8080/", // 请求的路径
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000, // request timeout
 });

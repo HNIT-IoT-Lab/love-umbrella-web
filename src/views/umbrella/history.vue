@@ -110,7 +110,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .el-table .warning-row {
   background: oldlace;
 }

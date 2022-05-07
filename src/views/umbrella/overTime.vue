@@ -19,12 +19,12 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="small " @click="openAlamDialog(scope.row.openID)"
+          <el-button size="small" @click="openAlamDialog(scope.row.openID)"
             >邮件提醒</el-button
           >
           <el-button
             size="small "
-            type="danger"
+            type="primary"
             @click="handleDelete(scope.row)"
             >删除</el-button
           >
@@ -177,7 +177,7 @@ export default {
     //删除该条记录
     handleDelete(val) {
       // 用户的key由固定字段(有英文冒号)：umbrellaOvertime:+用户姓名+openID
-      let key = "umbrellaOvertime:" + val.userName + val.openID;
+      let openID = val.openID;
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -185,7 +185,7 @@ export default {
       })
         .then(() => {
           let params = new URLSearchParams();
-          params.append("key", key);
+          params.append("openID", openID);
           deleteOvertime(params).then(
             (res) => {
               if (res.code === 200) {
